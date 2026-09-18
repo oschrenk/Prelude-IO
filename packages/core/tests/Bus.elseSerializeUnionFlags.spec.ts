@@ -32,13 +32,10 @@ const union = alpha.else(beta).else(gamma).else(delta);
 const deltaConfig = { tag: "delta" as const, name: "x" };
 
 describe("io.Bus.else union flags", () => {
-  it("cannot serialize a config that sits behind a throwing bus", () => {
+  it("serializes a config that sits behind a throwing bus", () => {
     assert.equal(union.deserialize(deltaConfig).isRight(), true);
 
-    assert.throws(
-      () => union.serialize(deltaConfig),
-      /Cannot read properties of undefined \(reading '_list'\)/
-    );
+    assert.equal(union.serialize(deltaConfig).isRight(), true);
 
     assert.equal(
       union.serialize({ tag: "alpha" as const, name: "x" }).isRight(),

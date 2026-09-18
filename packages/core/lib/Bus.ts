@@ -197,7 +197,7 @@ export default class Bus<I = any, O = any> {
       elseTransformers(
         name,
         [this.serialize, other.serialize],
-        [otherIsUnion, thisIsUnion]
+        [thisIsUnion, otherIsUnion]
       ),
       { [TYPE_MARKER]: "UNION", busses: [this, other] }
     );
