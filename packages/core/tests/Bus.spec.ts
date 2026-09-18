@@ -194,4 +194,25 @@ describe("io.Bus", () => {
       └─ isBoolean rejected \`null\``
     );
   });
+
+  it("serialize flattens union errors the same way as deserialize", () => {
+    const bus = io.string.else(io.number).else(io.boolean);
+
+    const expected = `isString(any) | isNumber(any) | isBoolean(any)
+  ├─ isString(any)
+  │   └─ isString rejected \`null\`
+  ├─ isNumber(any)
+  │   └─ isNumber rejected \`null\`
+  └─ isBoolean(any)
+      └─ isBoolean rejected \`null\``;
+
+    assert.equal(
+      io.humanizeErrors(bus.deserialize(null).getLeftOrThrow()),
+      expected
+    );
+    assert.equal(
+      io.humanizeErrors(bus.serialize(null).getLeftOrThrow()),
+      expected
+    );
+  });
 });
