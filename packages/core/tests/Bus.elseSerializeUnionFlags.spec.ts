@@ -46,7 +46,7 @@ describe("io.Bus.else union flags", () => {
     );
   });
 
-  it("throws while combining a union with a bus that has no inner", () => {
+  it("combines a union with a bus that has no inner", () => {
     // Bus.create has no inner bus.
     const leaf = io.Bus.create<string, string>(
       "leaf",
@@ -56,10 +56,7 @@ describe("io.Bus.else union flags", () => {
 
     assert.equal(leaf.inner, null);
 
-    assert.throws(
-      () => alpha.else(beta).else(leaf),
-      /Cannot use 'in' operator to search for 'Symbol\(%%TYPE_MARKER\)' in null/
-    );
+    assert.doesNotThrow(() => alpha.else(beta).else(leaf));
 
     assert.doesNotThrow(() => leaf.else(alpha.else(beta)));
   });

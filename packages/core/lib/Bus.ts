@@ -182,7 +182,7 @@ export default class Bus<I = any, O = any> {
 
     const otherIsUnion =
       typeof other.inner === "object" &&
-      this.inner !== null &&
+      other.inner !== null &&
       TYPE_MARKER in other.inner &&
       other.inner[TYPE_MARKER] === "UNION";
 
