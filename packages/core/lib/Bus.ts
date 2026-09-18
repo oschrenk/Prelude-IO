@@ -182,7 +182,7 @@ export default class Bus<I = any, O = any> {
 
     const otherIsUnion =
       typeof other.inner === "object" &&
-      this.inner !== null &&
+      other.inner !== null &&
       TYPE_MARKER in other.inner &&
       other.inner[TYPE_MARKER] === "UNION";
 
@@ -197,7 +197,7 @@ export default class Bus<I = any, O = any> {
       elseTransformers(
         name,
         [this.serialize, other.serialize],
-        [otherIsUnion, thisIsUnion]
+        [thisIsUnion, otherIsUnion]
       ),
       { [TYPE_MARKER]: "UNION", busses: [this, other] }
     );
