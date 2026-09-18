@@ -43,6 +43,22 @@ describe("io.Bus.else union flags", () => {
     );
   });
 
+  it("round-trips a config accepted by any member of a flat union", () => {
+    const configs = [
+      { tag: "alpha" as const, name: "x" },
+      { tag: "beta" as const, name: "x" },
+      { tag: "gamma" as const, period: "YEAR" as const },
+      deltaConfig,
+    ];
+
+    for (const config of configs) {
+      const serialized = union.serialize(config);
+      assert.equal(serialized.isRight(), true, config.tag);
+      assert.deepEqual(serialized.getOrThrow(), config);
+      assert.deepEqual(union.deserialize(config).getOrThrow(), config);
+    }
+  });
+
   it("combines a union with a bus that has no inner", () => {
     // Bus.create has no inner bus.
     const leaf = io.Bus.create<string, string>(
